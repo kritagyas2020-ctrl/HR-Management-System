@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HR Portal</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="app.js"></script>
+  </head>
+  <body>
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay hidden" onclick="toggleSidebar()"></div>
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-logo">ELCMS <span>Dataset for HR Management </span></div>
+      <div class="nav-item active" onclick="showSection('dashboard')">
+        📊 Dashboard
+      </div>
+      <div class="nav-item" onclick="showSection('staff')">👥 Staff</div>
+      <div class="nav-item" onclick="showSection('departments')">
+        🏢 Departments
+      </div>
+      <div class="nav-item" onclick="showSection('contracts')">
+        📄 Contracts
+      </div>
+      <div class="nav-item" onclick="showSection('leaves')">
+        🌿 Leave Requests
+      </div>
+      <div class="nav-item" onclick="showSection('leavebalance')">
+        ⚖️ Leave Balance
+      </div>
+      <div class="sidebar-footer">Connected: employee DB</div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+      <div class="topbar">
+        <button class="hamburger" onclick="toggleSidebar()">☰</button>
+        <h1 id="page-title">Dashboard</h1>
+        <div class="topbar-profile">
+          <button class="profile-button" onclick="toggleProfileMenu()">
+            <span class="pfp">KS</span>
+          </button>
+          <div class="profile-menu hidden" id="profile-menu">
+            <div class="profile-menu-item"><strong>Name:</strong> Kritagya Shakya</div>
+            <div class="profile-menu-item"><strong>Dataset:</strong> ELCMS</div>
+            <div class="profile-menu-item"><strong>Status:</strong> Admin</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- DASHBOARD -->
+        <div class="section active" id="section-dashboard">
+          <div class="stats-row">
+            <div class="stat-card">
+              <div class="stat-label">Total Staff</div>
+              <div class="stat-value" id="stat-staff">—</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Departments</div>
+              <div class="stat-value" id="stat-dept">—</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Active Contracts</div>
+              <div class="stat-value" id="stat-contracts">—</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Pending Leaves</div>
+              <div class="stat-value" id="stat-leaves">—</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Recent Staff</div>
+            <div class="table-wrap">
+              <table id="dashboard-staff-table">
+                <thead>
+                  <tr>
+                    
+                    <th>Name</th>
+                    <th>Job Title</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="4" style="color: #000000">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- STAFF -->
+        <div class="section" id="section-staff">
+          <div class="section-header">
+            <h2>Staff Members</h2>
+            <button
+              class="btn btn-primary"
+              onclick="openModal('modal-add-staff')"
+            >
+              + Add Staff
+            </button>
+          </div>
+          <div class="card">
+            <div class="table-wrap">
+              <table id="staff-table">
+                <thead>
+                  <tr>
+                    
+                    <th>Full Name</th>
+                   
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Job Title</th>
+                    <th>Department</th>
+                    <th>Joined</th>
+                    <th>Status</th>
+                    <th>Employee Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="8" style="color: #000000">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- DEPARTMENTS -->
+        <div class="section" id="section-departments">
+          <div class="section-header">
+            <h2>Departments</h2>
+            <button
+              class="btn btn-primary"
+              onclick="openModal('modal-add-dept')"
+            >
+              + Add Department
+            </button>
+          </div>
+          <div class="card">
+            <div class="table-wrap">
+              <table id="dept-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Department Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="2" style="color: #000000">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTRACTS -->
+        <div class="section" id="section-contracts">
+          <div class="section-header">
+            <h2>Contracts</h2>
+            <button
+              class="btn btn-primary"
+              onclick="openModal('modal-add-contract')"
+            >
+              + Add Contract
+            </button>
+          </div>
+          <div class="card">
+            <div class="table-wrap">
+              <table id="contract-table">
+                <thead>
+                  <tr>
+                    <th>Employee Name</th>
+                    <th>Department</th>
+                    <th>Type</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Salary</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="7" style="color: #000000">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- LEAVES -->
+        <div class="section" id="section-leaves">
+          <div class="section-header">
+            <h2>Leave Requests</h2>
+            <button
+              class="btn btn-primary"
+              onclick="openModal('modal-add-leave')"
+            >
+              + New Request
+            </button>
+          </div>
+          <div class="card">
+            <div class="table-wrap">
+              <table id="leave-table">
+                <thead>
+                  <tr>
+                    <th>S.N</th>
+                    <th>Employee Name</th>
+                    <th>Type</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Days</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="9" style="color: #000000">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- LEAVE BALANCE -->
+        <div class="section" id="section-leavebalance">
+          <div class="section-header">
+            <h2>Leave Balance</h2>
+          </div>
+          <div class="card">
+            <div class="table-wrap">
+              <table id="leavebalance-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Employee Name</th>
+                    <th>Leave Type</th>
+                    <th>Year</th>
+                    <th>Total Entitlement</th>
+                    <th>Remaining Days</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="6" style="color: #000000">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast"></div>
+
+    <!-- MODAL: Add Staff -->
+    <div class="modal-overlay" id="modal-add-staff">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>Add New Staff</h2>
+          <button class="modal-close" onclick="closeModal('modal-add-staff')">
+            ✕
+          </button>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>First Name *</label
+            ><input type="text" id="s-firstName" placeholder="John" />
+          </div>
+          <div class="form-group">
+            <label>Last Name *</label
+            ><input type="text" id="s-lastName" placeholder="Doe" />
+          </div>
+          <div class="form-group">
+            <label>Date of Birth *</label><input type="date" id="s-dob" />
+          </div>
+          <div class="form-group">
+            <label>Phone</label
+            ><input type="text" id="s-phone" placeholder="1234567890" />
+          </div>
+          <div class="form-group full">
+            <label>Email *</label
+            ><input type="email" id="s-email" placeholder="john@company.com" />
+          </div>
+          <div class="form-group full">
+            <label>Address *</label
+            ><input type="text" id="s-address" placeholder="123 Main St" />
+          </div>
+          <div class="form-group">
+            <label>Job Title</label
+            ><input type="text" id="s-jobTitle" placeholder="Manager" />
+          </div>
+          <div class="form-group">
+            <label>Joined Date</label><input type="date" id="s-joinedDate" />
+          </div>
+          <div class="form-group">
+            <label>Department</label>
+            <select id="s-departmentId">
+              <option value="">Select department</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Employment Type</label>
+            <select id="s-employeeType">
+              <option value="full-time">Full-time</option>
+              <option value="part-time">Part-time</option>
+              <option value="contract">Contract</option>
+            </select>
+          </div>
+        </div>
+        <div class="btn-row">
+          
+          <button class="btn btn-primary" onclick="addStaff()">
+            Add Staff
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: Add Department -->
+    <div class="modal-overlay" id="modal-add-dept">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>Add Department</h2>
+          <button class="modal-close" onclick="closeModal('modal-add-dept')">
+            ✕
+          </button>
+        </div>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Department Name *</label
+            ><input type="text" id="d-name" placeholder="Engineering" />
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn" onclick="closeModal('modal-add-dept')">
+            Cancel
+          </button>
+          <button class="btn btn-primary" onclick="addDepartment()">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: Add Contract -->
+    <div class="modal-overlay" id="modal-add-contract">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>Add Contract</h2>
+          <button
+            class="modal-close"
+            onclick="closeModal('modal-add-contract')"
+          >
+            ✕
+          </button>
+        </div>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Employee ID *</label
+            ><input type="number" id="c-employeeId" placeholder="101" />
+          </div>
+          <div class="form-group">
+            <label>Contract Type</label>
+            <select id="c-contractType">
+              <option value="full-time">Full-time</option>
+              <option value="part-time">Part-time</option>
+              <option value="contract">Contract</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Salary</label
+            ><input type="number" id="c-salary" placeholder="30000" />
+          </div>
+          <div class="form-group">
+            <label>Start Date *</label><input type="date" id="c-startDate" />
+          </div>
+          <div class="form-group">
+            <label>End Date</label><input type="date" id="c-endDate" />
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select id="c-contractStatus">
+              <option value="1">Active</option>
+              <option value="0">Inactive</option>
+            </select>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn" onclick="closeModal('modal-add-contract')">
+            Cancel
+          </button>
+          <button class="btn btn-primary" onclick="addContract()">
+            Add Contract
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: Add Leave Request -->
+    <div class="modal-overlay" id="modal-add-leave">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>New Leave Request</h2>
+          <button class="modal-close" onclick="closeModal('modal-add-leave')">
+            ✕
+          </button>
+        </div>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Employee ID *</label
+            ><input type="number" id="l-employeeId" placeholder="101" />
+          </div>
+          <div class="form-group">
+            <label>Leave Type *</label>
+            <select id="l-leaveType">
+              <option value="Annual">Annual</option>
+              <option value="Sick">Sick</option>
+              <option value="Casual">Casual</option>
+              <option value="Unpaid">Unpaid</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Total Days *</label
+            ><input type="number" id="l-totalDays" placeholder="3" />
+          </div>
+          <div class="form-group">
+            <label>Start Date *</label><input type="date" id="l-leaveStart" />
+          </div>
+          <div class="form-group">
+            <label>End Date *</label><input type="date" id="l-leaveEnd" />
+          </div>
+          <div class="form-group">
+            <label>Submitted Date *</label
+            ><input type="date" id="l-submittedDate" />
+          </div>
+          <div class="form-group full">
+            <label>Reason</label
+            ><textarea
+              id="l-reasons"
+              rows="3"
+              placeholder="Reason for leave..."
+            ></textarea>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn" onclick="closeModal('modal-add-leave')">
+            Cancel
+          </button>
+          <button class="btn btn-primary" onclick="addLeave()">
+            Submit Request
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
